@@ -13,7 +13,7 @@
             <def-button @click="removePost(post)" v-if="this.$store.state.admin">
                 Delete
             </def-button>
-            <def-button @click="getPost(post.id)" v-if="this.$store.state.admin">
+            <def-button disabled @click="getPost(post.id)" v-if="this.$store.state.admin">
                 Edit
             </def-button>
             <def-button @click="this.$router.push(`/post/${post.dbID}`)">
