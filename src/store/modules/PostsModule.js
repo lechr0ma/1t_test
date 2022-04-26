@@ -71,7 +71,6 @@ export const PostModule = {
                 }
             } else {
                 try {
-                    commit('setPage', 1)
                     const {total, postsSnap} = await getByAuthor(state.currentPage, state.limit, state.author)
                     commit('setTotal', Math.ceil(total.length / state.limit))
                     commit('getPosts', postsSnap.map(e => e.data()))
