@@ -2,11 +2,22 @@
     <div class="post__container">
         <spinner v-if="this.$store.state.post.isLoading"></spinner>
         <div class="post__filter">
-            <input @change="this.$store.commit('setSearch', $event.target.value)" class="input" type="text"
-                   placeholder="Filter">
-            <select @change="this.$store.commit('setSort', $event.target.value)" class="input" name="sort" id="sort">
+            <input @input="this.$store.commit('setSearch', $event.target.value)"
+                   class="input"
+                   type="text"
+                   placeholder="Filter"
+                   :value="this.$store.state.post.searchQuery"
+            >
+            Sort by:
+            <select @change="this.$store.commit('setSort', $event.target.value)"  name="sort">
                 <option value="id">By ID</option>
                 <option value="title">By Title</option>
+            </select>
+            Author:
+            <select @change="changeAuthor($event.target.value)" name="sort">
+                <option value="John Doe">John Doe</option>
+                <option value="Jane Doe">Jane Doe</option>
+                <option value="">All</option>
             </select>
         </div>
         <div v-if="this.$store.getters.sortedSearchedPosts.length" class="post__pages">
@@ -52,6 +63,10 @@
             changePage(page) {
                 this.$store.commit('setPage', page)
                 this.$store.dispatch('getPosts')
+            },
+            changeAuthor(author){
+                this.$store.commit('setAuthor', author)
+                this.$store.dispatch('getPosts')
             }
         },
         mounted() {
@@ -77,6 +92,10 @@
     .page.current {
         background: #5C7AFF;
         color: white;
+    }
+    .no_posts{
+        display: flex;
+        justify-content: center;
     }
 
 </style>

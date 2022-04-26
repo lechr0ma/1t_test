@@ -1,4 +1,4 @@
-import {getLimit} from "@/API/Posts";
+import {getAllByLimit, getByAuthor,} from "@/API/Posts";
 
 
 export const PostModule = {
@@ -7,6 +7,7 @@ export const PostModule = {
         isLoading: false,
         sortBy: '',
         searchQuery: '',
+        author: null,
         limit: 10,
         currentPage: 1,
         totalPages: 0
@@ -18,7 +19,7 @@ export const PostModule = {
                     return a[state.sortBy].localeCompare(b[state.sortBy])
                 }
                 if (typeof a[state.sortBy] === 'number') {
-                    return a[state.sortBy] - b[state.sortBy]
+                    return b[state.sortBy] - a[state.sortBy]
                 }
             })
         },
@@ -48,6 +49,9 @@ export const PostModule = {
         setTotal(state, total) {
             state.totalPages = total
         },
+        setAuthor(state, author){
+            state.author = author
+        },
         removePost(state, id) {
             state.posts = state.posts.filter(post => post.id !== id)
         }
@@ -55,17 +59,33 @@ export const PostModule = {
     actions: {
         async getPosts({state, commit}) {
             commit('setLoading', true)
-            try {
-                const {total, postsSnap} = await getLimit(state.currentPage, state.limit)
-                commit('setTotal', Math.ceil(total.length / state.limit))
-                commit('getPosts', postsSnap.map(e => e.data()))
-                commit('setLoading', false)
-            } catch (e) {
-                console.log(e)
-                commit('setLoading', false)
+            if (!state.author){
+                try {
+                    const {total, postsSnap} = await getAllByLimit(state.currentPage, state.limit)
+                    commit('setTotal', Math.ceil(total.length / state.limit))
+                    commit('getPosts', postsSnap.map(e => e.data()))
+                    commit('setLoading', false)
+                } catch (e) {
+                    console.log(e)
+                    commit('setLoading', false)
+                }
+            } else {
+                try {
+                    commit('setPage', 1)
+                    const {total, postsSnap} = await getByAuthor(state.currentPage, state.limit, state.author)
+                    commit('setTotal', Math.ceil(total.length / state.limit))
+                    commit('getPosts', postsSnap.map(e => e.data()))
+                    commit('setLoading', false)
+                } catch (e) {
+                    alert(e.message)
+                    commit('setLoading', false)
+                }
             }
+
         },
 
-    },
+    }
+
+    ,
 }
 

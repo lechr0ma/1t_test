@@ -65,7 +65,7 @@
         width: 100%;
         height: 30px;
         border: #5C7AFF 1px solid;
-        margin-top: 5px;
+        margin: 5px 0;
         padding: 5px;
     }
 
