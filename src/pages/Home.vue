@@ -17,7 +17,7 @@
             <select @change="changeAuthor($event.target.value)" name="sort">
                 <option value="John Doe">John Doe</option>
                 <option value="Jane Doe">Jane Doe</option>
-                <option value="">All</option>
+                <option selected value="">All</option>
             </select>
         </div>
         <div v-if="this.$store.getters.sortedSearchedPosts.length" class="post__pages">
