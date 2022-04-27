@@ -2,19 +2,21 @@
     <div class="post__container">
         <spinner v-if="this.$store.state.post.isLoading"></spinner>
         <div class="post__filter">
-            <input @input="this.$store.commit('setSearch', $event.target.value)"
-                   class="input"
-                   type="text"
-                   placeholder="Filter"
-                   :value="this.$store.state.post.searchQuery"
-            >
+<!--            <def-input @input="this.$store.commit('setSearch', $event.target.value)"-->
+<!--                   placeholder="Filter"-->
+<!--                   :text="this.$store.state.post.searchQuery"-->
+<!--            />-->
+            <def-input @input="testTime"
+                       placeholder="Filter"
+                       :text="this.$store.state.post.searchQuery"
+            />
             Sort by:
             <select @change="this.$store.commit('setSort', $event.target.value)"  name="sort">
                 <option value="id">By ID</option>
                 <option value="title">By Title</option>
             </select>
             Author:
-            <select @change="changeAuthor($event.target.value)" name="sort">
+            <select @change="changeAuthor($event.target.value)" :value="this.$store.state.post.author" name="sort">
                 <option value="John Doe">John Doe</option>
                 <option value="Jane Doe">Jane Doe</option>
                 <option selected value="">All</option>
@@ -50,14 +52,20 @@
 <script>
     import Post from "@/components/Post";
     import Spinner from "@/components/UI/Spinner";
+    import DefButton from "@/components/UI/DefButton";
+    import DefInput from "@/components/UI/DefInput";
 
     export default {
         components: {
+            DefInput,
+            DefButton,
             Spinner,
             Post
         },
         data() {
-            return {}
+            return {
+                timeout: 0
+            }
         },
         methods: {
             changePage(page) {
@@ -66,7 +74,13 @@
             },
             changeAuthor(author){
                 this.$store.commit('setAuthor', author)
+                this.$store.commit('setPage', 1)
                 this.$store.dispatch('getPosts')
+            },
+            testTime(){
+                clearTimeout(this.timeout)
+                const id = setTimeout(()=> console.log('work'), 1000)
+                this.timeout = id
             }
         },
         mounted() {

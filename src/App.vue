@@ -61,14 +61,6 @@
         }
     }
 
-    .input {
-        width: 100%;
-        height: 30px;
-        border: #5C7AFF 1px solid;
-        margin: 5px 0;
-        padding: 5px;
-    }
-
     .main__content {
         padding-top: 60px;
         width: 80%;

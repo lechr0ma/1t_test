@@ -39,9 +39,16 @@ export const getAllByLimit = (page, limit) => {
 
 // in progress
 export const getByAuthor = (page, limit, author) =>{
-    const authorQuery = query(dbPosts, where('author', '==', author))
+    const authorQuery = query(dbPosts, where('author', '==', author), orderBy('id', 'desc'))
     return getLimit(page, limit, authorQuery)
 }
+// export const getIndex = async () =>{
+//     const queryIndex = query(dbPosts, where('author', "==", 'Jane Doe'))
+//     const querySort = query(queryIndex, orderBy('id', 'desc'))
+//     console.log(queryIndex)
+//     console.log(querySort)
+//     console.log((await getDocs(querySort)).docs.map(e => e.data()))
+// }
 
 
 const getLimit = async (page, lim, quer) => {

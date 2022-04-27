@@ -2,8 +2,8 @@
     <div class="post__create">
         <form @submit.prevent>
             <h4>Add Post</h4>
-            <input placeholder="Title" v-model="title" class="input" type="text">
-            <input placeholder="Body" v-model="body" class="input" type="text">
+            <def-input placeholder="Title" @input="title = $event.target.value" :text="title" />
+            <def-input placeholder="Body" @input="body = $event.target.value" :text="body" />
             <def-button @click="addPost" class="def_button ml0">Add Post</def-button>
             <span v-if="ok && !loading">Post created!</span>
         </form>
@@ -13,9 +13,10 @@
 <script>
     import DefButton from "@/components/UI/DefButton";
     import {setPost} from "@/API/Posts";
+    import DefInput from "@/components/UI/DefInput";
 
     export default {
-        components: {DefButton},
+        components: {DefInput, DefButton},
         data() {
             return {
                 title: '',

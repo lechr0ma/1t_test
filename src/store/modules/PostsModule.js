@@ -66,24 +66,23 @@ export const PostModule = {
                     commit('getPosts', postsSnap.map(e => e.data()))
                     commit('setLoading', false)
                 } catch (e) {
-                    console.log(e)
+                    alert(e.message)
                     commit('setLoading', false)
                 }
             } else {
                 try {
-                    const {total, postsSnap} = await getByAuthor(1, state.limit, state.author)
-                    if (Math.ceil(total.length / state.limit) < state.totalPages){
-                        commit('setPage', 1)
-                        commit('setTotal', Math.ceil(total.length / state.limit) )
-                        commit('getPosts', postsSnap.map(e => e.data()))
-                        commit('setLoading', false)
-                    } else {
+                    // const {total, postsSnap} = await getByAuthor(state.currentPage, state.limit, state.author)
+                    // if (Math.ceil(total.length / state.limit) < state.totalPages){
+                    //     commit('setPage', 1)
+                    //     commit('setTotal', Math.ceil(total.length / state.limit) )
+                    //     commit('getPosts', postsSnap.map(e => e.data()))
+                    //     commit('setLoading', false)
+                    // } else {
                         const {total, postsSnap} = await getByAuthor(state.currentPage, state.limit, state.author)
                         commit('setTotal', Math.ceil(total.length / state.limit) )
                         commit('getPosts', postsSnap.map(e => e.data()))
                         commit('setLoading', false)
-                    }
-
+                    // }
 
                 } catch (e) {
                     alert(e.message)

@@ -13,7 +13,7 @@
             <def-button @click="removePost(post)" v-if="this.$store.state.admin">
                 Delete
             </def-button>
-            <def-button disabled @click="getPost(post.id)" v-if="this.$store.state.admin">
+            <def-button @click="getPost()" v-if="this.$store.state.admin">
                 Edit
             </def-button>
             <def-button @click="this.$router.push(`/post/${post.dbID}`)">
@@ -25,7 +25,7 @@
 
 <script>
     import DefButton from "@/components/UI/DefButton";
-    import {deletePost, getOne} from "@/API/Posts";
+    import {deletePost} from "@/API/Posts";
 
     export default {
         components: {DefButton},
@@ -40,8 +40,8 @@
                 deletePost(post.dbID)
                 this.$store.commit('removePost', post.id)
             },
-            getPost(id) {
-                getOne(id)
+            getPost() {
+                const id = setTimeout(() => console.log(id), 1000)
             }
         }
     }
